@@ -13,13 +13,17 @@ const corsOption={
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
-app.use('/api',cors(corsOption), router)
+app.use('/api', cors(corsOption), router)
 
 app.get('/',(req,res)=>{
     res.send('Hello World')
 })
 
-const server = app.listen (8000,()=>{
+// Verifica que la variable de entorno PORT esté configurada
+const PORT = process.env.PORT || 8000;
+console.log(`PORT: ${PORT}`);
+
+const server = app.listen(PORT, ()=>{
     console.log(`Server running on port ${server.address().port}`)
 })
 
