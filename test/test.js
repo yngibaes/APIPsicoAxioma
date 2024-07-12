@@ -23,16 +23,17 @@ describe('GET /api/info',()=>{
     })
 }) 
 
-describe('POST /api/info', ()=>{
+describe('POST /api/signup', ()=>{
     it('should POST all info',(done)=>{ //done is a callback function
         let test = {
-            name: faker.Lorem.words(1)[0],
-            descri: faker.Lorem.paragraph()[0],
-            img: faker.Image.animals()
+            userName: faker.Lorem.words(1)[0],
+            userPhone: faker.phone.phoneNumber(), // '197089478'
+            userEmail: faker.Internet.email(),
+            userPassword: faker.Internet.password()
         }
         console.log(test)
         ChaiTest.request(app)  //chai.request is a function that sends a request to the app
-            .post('/api/info')
+            .post('/signup')
             .send(test)
             .end((err,res)=>{
                 expect(err).to.be.null //expect is a function that compares the result of the request with the expected result
@@ -43,7 +44,7 @@ describe('POST /api/info', ()=>{
         done()
     })
 })
-
+/*
 describe('GET /api/info/:id',()=>{
     it('should GET all info for id',(done)=>{ //done is a callback function
         ChaiTest.request(app)  //chai.request is a function that sends a request to the app
@@ -57,4 +58,4 @@ describe('GET /api/info/:id',()=>{
         })
     done()    
     })
-}) 
+}) */

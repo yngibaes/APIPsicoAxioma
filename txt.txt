@@ -1,1 +1,9 @@
 /* "test": "SET NODE_ENV=test&& nodemon --exec mocha --require node_modules/@babel/register" */
+
+https://stackoverflow.com/questions/76538122/create-login-function-for-react-native-app
+
+https://github.com/marijuaa/react-native-login-screen/blob/main/src/screens/Login/index.js
+
+https://github.com/WrathChaos/react-native-login-screen/blob/master/lib/helpers/emailValidator.ts
+
+https://github.com/hirishu10/reactnative-login-register-ui-with-ChatApp-Functionality

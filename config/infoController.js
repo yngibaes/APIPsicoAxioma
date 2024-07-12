@@ -6,7 +6,7 @@ export default class infoController{
         let connection;
         try{
             connection = await mysql.createConnection(db)
-            const [result] = await connection.execute("SELECT * FROM card")
+            const [result] = await connection.execute("SELECT * FROM user")
             console.log(result)
             res.json(result)
         }
@@ -19,19 +19,18 @@ export default class infoController{
             }
         }
     }
-
-    static async store(req,res){
+    static async signup(req,res){
         let connection;
         try{
-            const {name, descri, img} = req.body
+            const {userName, userPhone, userEmail, userPassword} = req.body
             connection = await mysql.createConnection(db)
-            console.log(name, descri, img)
-            const [result] = await connection.execute("INSERT INTO card (name, descri, img) VALUES (?,?,?)",
-            [name, descri, img])
+            console.log(userName, userPhone, userEmail, userPassword)
+            const [result] = await connection.execute("INSERT INTO user (userName, userPhone, userEmail, userPassword) VALUES (?,?,?,?)",
+            [userName, userPhone, userEmail, userPassword])
             console.log(result)
         }
         catch(error){
-            res.status(500).json({'error': error.message})
+            res.status(404).json({'error': error.message})
         }
         finally{
             if(connection){
@@ -39,8 +38,7 @@ export default class infoController{
             }
         }
     }
-
-    static async details(req,res){
+/*     static async details(req,res){
         let connection;
         try{
             const id = req.params.id;
@@ -58,5 +56,5 @@ export default class infoController{
                 await connection.end()
             }
         }
-    }
+    } */
 }
