@@ -1,8 +1,8 @@
-import mysql from 'mysql2/promise'
-import db from './database.js';
+import db from "./database";
+import mysql from "mysql2/promise";
 
-export default class infoController{
-    static async index(req,res){
+export default class userController {
+    static async readUser(req,res){
         let connection;
         try{
             connection = await mysql.createConnection(db)
@@ -19,13 +19,13 @@ export default class infoController{
             }
         }
     }
-    static async signup(req,res){
+    static async insertUser(req,res){
         let connection;
         try{
             const {userName, userPhone, userEmail, userPassword} = req.body
             connection = await mysql.createConnection(db)
             console.log(userName, userPhone, userEmail, userPassword)
-            const [result] = await connection.execute("INSERT INTO user (userName, userPhone, userEmail, userPassword) VALUES (?,?,?,?)",
+            const [result] = await connection.execute("INSERT INTO user (userName, userPhone, userEmail, userPassword) VALUES (?,?,?,?,?)",
             [userName, userPhone, userEmail, userPassword])
             console.log(result)
         }
@@ -38,23 +38,22 @@ export default class infoController{
             }
         }
     }
-/*     static async details(req,res){
+    static async updateDiary(req,res){
         let connection;
         try{
-            const id = req.params.id;
+            const {diaryTitle, diaryContent, diaryDate, diaryID} = req.body
             connection = await mysql.createConnection(db)
-            console.log(id)
-            const [result] = await connection.execute("SELECT * FROM card WHERE id = ?", [id])
+            console.log(diaryTitle, diaryContent, diaryDate, diaryID)
+            const [result] = await connection.execute("UPDATE diary SET diaryTitle=?, diaryContent=?, diaryDate=? WHERE diaryID=?", [diaryTitle, diaryContent, diaryDate, diaryID])
             console.log(result)
-            res.json(result)
         }
         catch(error){
-            res.status(500).json({'error': error.message})
+            res.status(404).json({'error': error.message})
         }
         finally{
             if(connection){
                 await connection.end()
             }
         }
-    } */
+    } 
 }

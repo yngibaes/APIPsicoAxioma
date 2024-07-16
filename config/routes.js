@@ -1,13 +1,17 @@
 import { Router } from "express";
-import infoController from "./infoController.js";
+import diaryController from "./diaryController.js";
 
 const router = new Router()
 
 //Get all the info
-router.get('/info', infoController.index)
+/* router.get('/info', infoController.index)
+router.post('/signup', infoController.signup) */
 
-//Create a new info
-router.post('/signup', infoController.signup)
+//Create a diary controller.
+router.get('/diary', diaryController.readDiary)
+router.post('/insertsDiary', diaryController.insertsDiary)
+router.put('/updateDiary', diaryController.updateDiary)
+router.delete('/deleteDiary', diaryController.deleteDiary)
 
 /* //specific info for id
 router.get('/info/:id', infoController.details)  */

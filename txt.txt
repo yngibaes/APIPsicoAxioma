@@ -6,4 +6,4 @@ https://github.com/marijuaa/react-native-login-screen/blob/main/src/screens/Logi
 
 https://github.com/WrathChaos/react-native-login-screen/blob/master/lib/helpers/emailValidator.ts
 
-https://github.com/hirishu10/reactnative-login-register-ui-with-ChatApp-Functionality
+https://github.com/hirishu10/reactnative-login-register-ui-with-ChatApp-Functionality   
