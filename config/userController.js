@@ -1,5 +1,10 @@
+<<<<<<< HEAD:config/userController.js
 import db from "./database";
 import mysql from "mysql2/promise";
+=======
+import mysql from 'mysql2/promise'
+import db from '../db/database.js';
+>>>>>>> ad6adb69fa5e4926cbe7e6bfb53e31a040dac6c9:config/infoController.js
 
 export default class userController {
     static async readUser(req,res){
@@ -22,6 +27,7 @@ export default class userController {
     static async insertUser(req,res){
         let connection;
         try{
+            
             const {userName, userPhone, userEmail, userPassword} = req.body
             connection = await mysql.createConnection(db)
             console.log(userName, userPhone, userEmail, userPassword)
