@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise'
-import db from './database.js';
+import db from '../db/database.js';
 
 export default class infoController{
     static async index(req,res){
@@ -22,6 +22,7 @@ export default class infoController{
     static async signup(req,res){
         let connection;
         try{
+            
             const {userName, userPhone, userEmail, userPassword} = req.body
             connection = await mysql.createConnection(db)
             console.log(userName, userPhone, userEmail, userPassword)

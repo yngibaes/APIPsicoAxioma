@@ -19,6 +19,14 @@ app.get('/',(req,res)=>{
     res.send('Hello World')
 })
 
+app.get('/api',(req,res)=>{
+    res.send('Andamos en API')
+})
+
+app.get('/api/signup',(req,res)=>{
+    res.send('Andamos en API')
+})
+
 // Verifica que la variable de entorno PORT esté configurada
 const PORT = process.env.PORT || 8000;
 console.log(`PORT: ${PORT}`);
