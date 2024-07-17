@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise'
-import db from './database.js';
+import db from '../db/database.js';
 
 export default class diaryController{
     static async readDiary(req,res){

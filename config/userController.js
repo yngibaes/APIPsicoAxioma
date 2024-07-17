@@ -1,10 +1,6 @@
-<<<<<<< HEAD:config/userController.js
-import db from "./database";
-import mysql from "mysql2/promise";
-=======
-import mysql from 'mysql2/promise'
+
 import db from '../db/database.js';
->>>>>>> ad6adb69fa5e4926cbe7e6bfb53e31a040dac6c9:config/infoController.js
+import mysql from "mysql2/promise";
 
 export default class userController {
     static async readUser(req,res){

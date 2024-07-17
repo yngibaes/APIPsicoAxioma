@@ -1,3 +1,6 @@
+// Import the mysql module
+import mysql from 'mysql2';
+
 const db = {
     host:'localhost',
     port: 3306,
@@ -6,10 +9,16 @@ const db = {
     database: 'psicoaxioma'
 }
 
-// Conectar a la base de datos
-connection.connect(error => {
-    if (error) throw error;
-    console.log('Successfully connected to the database.');
-  });
+// Create a connection to the database
+const connection = mysql.createConnection(db);
 
-export default db
+// Connect to the database
+connection.connect(error => {
+    if (error) {
+        console.error('An error occurred while connecting to the DB:', error);
+        return;
+    }
+    console.log('Successfully connected to the database.');
+});
+
+export default {db, connection};

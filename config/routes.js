@@ -1,11 +1,12 @@
 import { Router } from "express";
 import diaryController from "./diaryController.js";
+import userController from "./userController.js";
 
 const router = new Router()
 
 //Get all the info
-/* router.get('/info', infoController.index)
-router.post('/signup', infoController.signup) */
+/* router.get('/info', infoController.index)*/
+router.post('/signup', userController.insertUser)
 
 //Create a diary controller.
 router.get('/diary', diaryController.readDiary)
