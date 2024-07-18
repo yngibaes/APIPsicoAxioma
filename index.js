@@ -7,7 +7,7 @@ const app = express()
 
 const corsOption={
     //Conect rutes
-    origin: '*' //'localhost:3000'
+    origin: 'http://192.168.1.5:3000' //'localhost:3000'
 }
 
 app.use(bodyParser.urlencoded({extended:false}))
@@ -20,10 +20,6 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/api',(req,res)=>{
-    res.send('Andamos en API')
-})
-
-app.get('/api/signup',(req,res)=>{
     res.send('Andamos en API')
 })
 

@@ -23,11 +23,10 @@ export default class userController {
     static async insertUser(req,res){
         let connection;
         try{
-            
             const {userName, userPhone, userEmail, userPassword} = req.body
             connection = await mysql.createConnection(db)
             console.log(userName, userPhone, userEmail, userPassword)
-            const [result] = await connection.execute("INSERT INTO user (userName, userPhone, userEmail, userPassword) VALUES (?,?,?,?,?)",
+            const [result] = await connection.execute("INSERT INTO user (userName, userPhone, userEmail, userPassword) VALUES (?,?,?,?)",
             [userName, userPhone, userEmail, userPassword])
             console.log(result)
         }
