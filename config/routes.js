@@ -6,6 +6,7 @@ const router = new Router()
 
 //Get all the info
 /* router.get('/info', infoController.index)*/
+router.get('/readUser', userController.readUser)
 router.post('/insertUser', userController.insertUser)
 
 //Create a diary controller.
