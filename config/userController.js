@@ -40,22 +40,29 @@ export default class userController {
             }
         }
     }
-    static async updateDiary(req,res){
+    static async verifyPhone(req, res) {
         let connection;
-        try{
-            const {diaryTitle, diaryContent, diaryDate, diaryID} = req.body
-            connection = await mysql.createConnection(db)
-            console.log(diaryTitle, diaryContent, diaryDate, diaryID)
-            const [result] = await connection.execute("UPDATE diary SET diaryTitle=?, diaryContent=?, diaryDate=? WHERE diaryID=?", [diaryTitle, diaryContent, diaryDate, diaryID])
-            console.log(result)
-        }
-        catch(error){
-            res.status(404).json({'error': error.message})
-        }
-        finally{
-            if(connection){
-                await connection.end()
+        try {
+            // Obtener userPhone de los parámetros de la solicitud
+            const userPhone = req.body.userPhone; // Asumiendo que es una solicitud POST. Cambiar a req.query.userPhone si es GET.
+    
+            connection = await mysql.createConnection(db);
+            // Buscar en la base de datos por userPhone
+            const [result] = await connection.execute("SELECT userPhone FROM user WHERE userPhone = ?", [userPhone]);
+    
+            if (result.length > 0) {
+                // Si se encuentra el userPhone, enviar confirmación
+                res.json({ 'message': 'El número de teléfono existe en la base de datos.' });
+            } else {
+                // Si no se encuentra, informar que no existe
+                res.json({ 'message': 'El número de teléfono no existe en la base de datos.' });
+            }
+        } catch (error) {
+            res.status(500).json({ 'error': error.message });
+        } finally {
+            if (connection) {
+                await connection.end();
             }
         }
-    } 
+    }
 }

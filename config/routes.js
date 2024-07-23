@@ -8,9 +8,10 @@ const router = new Router()
 /* router.get('/info', infoController.index)*/
 router.get('/readUser', userController.readUser)
 router.post('/insertUser', userController.insertUser)
+router.post('/verifyPhone', userController.verifyPhone)
 
 //Create a diary controller.
-router.get('/diary', diaryController.readDiary)
+router.get('/diary', diaryController.readDiary) 
 router.post('/insertsDiary', diaryController.insertsDiary)
 router.put('/updateDiary', diaryController.updateDiary)
 router.delete('/deleteDiary', diaryController.deleteDiary)
