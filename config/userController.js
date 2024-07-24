@@ -26,7 +26,7 @@ export default class userController {
             const {userName, userEmail, userPhone, userPassword} = req.body
             connection = await mysql.createConnection(db)
             console.log(userName, userEmail, userPhone, userPassword)
-            const [result] = await connection.execute("INSERT INTO user (userName, userEmail, userPhone, userPassword) VALUES (?,?,?,?)",
+            const [result] = await connection.execute("INSERT INTO user (userName, userEmail, userPhone, userPassword) VALUES (?,?,?,?)",   
             [userName, userEmail, userPhone, userPassword])
             console.log(result)
             res.status(200).send('Usuario creado con éxito');
