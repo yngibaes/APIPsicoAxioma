@@ -4,8 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "SET NODE_ENV=development&& nodemon --exec babel-node index.js",
-    "test": "SET NODE_ENV=test&& nodemon --exec mocha --require node_modules/@babel/register"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
