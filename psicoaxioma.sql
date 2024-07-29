@@ -4,7 +4,6 @@ CREATE TABLE `user` (
   `userName` varchar(64) NOT NULL,
   `userPhone` varchar(10) NOT NULL,
   `userEmail` varchar(64) NOT NULL,
-  `userPassword` varchar(255) NOT NULL,
   `userPhoto` TEXT NOT NULL
 );
 
