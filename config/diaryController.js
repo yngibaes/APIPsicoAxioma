@@ -4,18 +4,24 @@ import db from '../db/database.js';
 export default class diaryController{
     static async readDiary(req,res){
         let connection;
-        try{
+        try {
+            const { userEmail } = req.query; // Obtener el email de los parámetros de la consulta
+            // Ejecutar la consulta con el parámetro userEmail
             connection = await mysql.createConnection(db)
-            const [result] = await connection.execute("SELECT * FROM diary")
-            console.log(result)
-            res.json(result)
-        }
-        catch(error){
-            res.status(404).json({'error': error.message})
-        }
-        finally{
-            if(connection){
-                await connection.end()
+      const [rows] = await connection.execute(
+        `SELECT diary.diaryID, diary.diaryTitle, diary.diaryDate, diary.diaryContent 
+         FROM user 
+         INNER JOIN diary ON user.userID = diary.userFK 
+         WHERE user.userEmail = ?`,
+        [userEmail] // Pasar los parámetros como un array
+      );
+            console.log(rows);
+            res.json(rows);
+        } catch (error) {
+            res.status(500).json({ 'error': error.message });
+        } finally {
+            if (connection) {
+                await connection.end();
             }
         }
     }
