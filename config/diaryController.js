@@ -47,21 +47,25 @@ export default class diaryController {
   static async insertsDiary(req, res) {
     let connection;
     try {
-      const { diaryTitle, diaryContent, diaryDate, userEmail } = req.body;
+      const { diaryTitle, diaryContent, userEmail } = req.body;
       connection = await mysql.createConnection(db);
-      const [userID] = await connection.execute(
+      const [userResult] = await connection.execute(
         "SELECT userID FROM user WHERE userEmail=?",
         [userEmail]
       );
-      console.log(diaryTitle, diaryContent, diaryDate, userID);
+      const userID = userResult[0]?.userID;
+      if (!userID) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
+      }
+      console.log(diaryTitle, diaryContent, userID);
       const [result] = await connection.execute(
-        "INSERT INTO diary (diaryTitle, diaryContent, diaryDate, userFk) VALUES (?,?,?,?)",
-        [diaryTitle, diaryContent, diaryDate, userID]
+        "INSERT INTO diary (diaryTitle, diaryContent, diaryDate, userFk) VALUES (?,?,NOW(),?)",
+        [diaryTitle, diaryContent, userID]
       );
       console.log(result);
-      res.status(200).send("Enviado con éxito");
+      res.status(201).send("Enviado con éxito");
     } catch (error) {
-      res.status(404).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     } finally {
       if (connection) {
         await connection.end();
