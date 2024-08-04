@@ -12,6 +12,7 @@ router.post('/verifyPhone', userController.verifyPhone)
 router.get('/readAllDiary', diaryController.readAllDiary) 
 router.get('/diary', diaryController.readDiary) 
 router.post('/insertsDiary', diaryController.insertsDiary)
+router.get('/readDiaryById', diaryController.readDiaryById)
 
 //Comentado por ahora
 /* router.put('/updateDiary', diaryController.updateDiary)

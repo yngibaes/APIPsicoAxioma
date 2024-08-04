@@ -43,6 +43,27 @@ export default class diaryController {
     }
   }
 
+  // Método para leer un diario específico por ID
+  static async readDiaryById(req, res) {
+    let connection;
+    try {
+      const { diaryID } = req.query; // Obtener el ID del diario de los parámetros de la consulta
+      connection = await mysql.createConnection(db);
+      const [result] = await connection.execute(
+        `SELECT diary.diaryID, diary.diaryTitle, diary.diaryDate, diary.diaryContent FROM diary WHERE diary.diaryID = ?`,
+        [diaryID] // Pasar el ID del diario como un parámetro
+      );
+      console.log(result);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    } finally {
+      if (connection) {
+        await connection.end();
+      }
+    }
+  }
+
   // Método para insertar un diario
   static async insertsDiary(req, res) {
     let connection;
