@@ -48,6 +48,7 @@ export default class diaryController {
     let connection;
     try {
       const { diaryID } = req.query; // Obtener el ID del diario de los parámetros de la consulta
+      console.log('Received diaryID:', diaryID); // Log the received diaryID
       connection = await mysql.createConnection(db);
       const [result] = await connection.execute(
         `SELECT diary.diaryID, diary.diaryTitle, diary.diaryDate, diary.diaryContent FROM diary WHERE diary.diaryID = ?`,
