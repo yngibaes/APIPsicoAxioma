@@ -18,6 +18,26 @@ export default class userController {
       }
     }
   }
+  static async readPhone(req, res) {
+    let connection;
+    try {
+      const { userEmail } = req.query;
+      connection = await mysql.createConnection(db);
+      const [result] = await connection.execute(
+        "SELECT userPhone FROM user WHERE userEmail = ?",
+        [userEmail]
+      );
+      console.log(result);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    } finally {
+      /*Cierre del ciclo*/
+      if (connection) {
+        await connection.end();
+      }
+    }
+  }
   static async insertUser(req, res) {
     let connection;
     try {
@@ -30,6 +50,26 @@ export default class userController {
       );
       console.log(result);
       res.status(200).send("Usuario creado con éxito");
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    } finally {
+      if (connection) {
+        await connection.end();
+      }
+    }
+  }
+  static async updateUser(req, res) {
+    let connection;
+    try {
+      const { userEmail, newEmail } = req.body;
+      connection = await mysql.createConnection(db);
+      console.log(userEmail, newEmail);
+      const [result] = await connection.execute(
+        "UPDATE user SET userEmail=? WHERE userEmail=?",
+        [newEmail, userEmail]
+      );
+      console.log(result);
+      res.status(200).send("Actualizado con éxito");
     } catch (error) {
       res.status(404).json({ error: error.message });
     } finally {

@@ -7,6 +7,8 @@ const router = new Router()
 router.get('/readUser', userController.readUser)
 router.post('/insertUser', userController.insertUser)
 router.post('/verifyPhone', userController.verifyPhone)
+router.get('/readPhone', userController.readPhone)
+router.post('/updateUser', userController.updateUser)
 
 //Create a diary controller.
 router.get('/readAllDiary', diaryController.readAllDiary) 
