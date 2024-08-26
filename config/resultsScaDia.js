@@ -27,7 +27,7 @@ export default class resultScaDiarController {
       const { userEmail } = req.body; // Obtener el email de los parámetros de la consulta
       connection = await mysql.createConnection(db);
       const [result] = await connection.execute(
-        `SELECT resultdiary.resultDiary
+        `SELECT resultdiary.resultDiary, resultdiary.diaryFK
           FROM user 
           INNER JOIN diary ON user.userID = diary.userFK
           INNER JOIN resultdiary ON diary.diaryID = resultdiary.diaryFK
