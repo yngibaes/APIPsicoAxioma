@@ -19,6 +19,7 @@ router.get('/readDiaryById', diaryController.readDiaryById)
 
 //Create a resultScaDia controller.
 router.post('/insertsResultDiary', resultScaDiarController.insertsResultDiary)
+router.get('/resultDiary', resultScaDiarController.resultDiary)
 
 //Comentado por ahora
 /* router.put('/updateDiary', diaryController.updateDiary)
