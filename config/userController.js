@@ -32,7 +32,6 @@ export default class userController {
     } catch (error) {
       res.status(500).json({ error: error.message });
     } finally {
-      /*Cierre del ciclo*/
       if (connection) {
         await connection.end();
       }

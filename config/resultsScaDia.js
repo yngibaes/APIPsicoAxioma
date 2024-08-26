@@ -31,7 +31,9 @@ export default class resultScaDiarController {
           FROM user 
           INNER JOIN diary ON user.userID = diary.userFK
           INNER JOIN resultdiary ON diary.diaryID = resultdiary.diaryFK
-          WHERE user.userEmail = ?`, [userEmail] // Pasar los parámetros como un array
+          WHERE user.userEmail = ?
+          ORDER BY resultdiary.diaryFK DESC
+          LIMIT 7`, [userEmail] // Pasar los parámetros como un array
       );
       console.log(result);
       res.json(result);
