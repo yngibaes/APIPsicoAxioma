@@ -24,7 +24,7 @@ export default class resultScaDiarController {
   static async resultDiary(req, res) {
     let connection;
     try {
-      const { userEmail } = req.body; // Obtener el email de los parámetros de la consulta
+      const { userEmail } = req.query; // Obtener el email de los parámetros de la consulta
       connection = await mysql.createConnection(db);
       const [result] = await connection.execute(
         `SELECT resultdiary.resultDiary, resultdiary.diaryFK
