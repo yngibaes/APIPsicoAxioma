@@ -1,6 +1,7 @@
 import { Router } from "express";
 import diaryController from "./diaryController.js";
 import userController from "./userController.js";
+import resultScaDiarController from "./resultsScaDia.js";
 
 const router = new Router()
 
@@ -15,6 +16,9 @@ router.get('/readAllDiary', diaryController.readAllDiary)
 router.get('/diary', diaryController.readDiary) 
 router.post('/insertsDiary', diaryController.insertsDiary)
 router.get('/readDiaryById', diaryController.readDiaryById)
+
+//Create a resultScaDia controller.
+router.post('/insertsResultDiary', resultScaDiarController.insertsResultDiary)
 
 //Comentado por ahora
 /* router.put('/updateDiary', diaryController.updateDiary)
