@@ -85,7 +85,7 @@ export default class diaryController {
         [diaryTitle, diaryContent, userID]
       );
       console.log(result);
-      res.status(200).send("Enviado con éxito");
+      res.status(200).json({ diaryID: result.insertId });
     } catch (error) {
       res.status(500).json({ error: error.message });
     } finally {
