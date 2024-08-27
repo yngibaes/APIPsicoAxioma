@@ -10,12 +10,14 @@ router.post('/insertUser', userController.insertUser)
 router.post('/verifyPhone', userController.verifyPhone)
 router.get('/readPhone', userController.readPhone)
 router.post('/updateUser', userController.updateUser)
+router.get('/deleteUser', userController.deleteUser)
 
 //Create a diary controller.
 router.get('/readAllDiary', diaryController.readAllDiary) 
 router.get('/diary', diaryController.readDiary) 
 router.post('/insertsDiary', diaryController.insertsDiary)
 router.get('/readDiaryById', diaryController.readDiaryById)
+
 
 //Create a resultScaDia controller.
 router.post('/insertsResultDiary', resultScaDiarController.insertsResultDiary)
