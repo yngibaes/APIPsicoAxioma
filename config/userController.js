@@ -113,19 +113,22 @@ export default class userController {
     let connection;
     try {
       connection = await mysql.createConnection(db);
-      const { userEmail } = req.body;
-      const result = `
-      SET SQL_SAFE_UPDATES = 0;
-      DELETE FROM resultdiary
-WHERE diaryFK IN (
-    SELECT diaryID FROM diary
-    WHERE userFK = (SELECT userID FROM user WHERE userEmail = ?)
-);
-DELETE FROM diary
-WHERE userFK = (SELECT userID FROM user WHERE userEmail = ?);
-DELETE FROM user
-WHERE userEmail = ?;
-SET SQL_SAFE_UPDATES = 1;`;
+      const { userEmail } = req.query;
+      const result = await connection.execute(
+        `
+        SET SQL_SAFE_UPDATES = 0;
+      
+        DELETE FROM resultdiary WHERE diaryFK IN (SELECT diaryID FROM diary WHERE userFK = (SELECT userID FROM user WHERE userEmail = ?));
+      
+        DELETE FROM diary WHERE userFK = (SELECT userID FROM user WHERE userEmail = ?);
+      
+        DELETE FROM user WHERE userEmail = ?;
+      
+        SET SQL_SAFE_UPDATES = 1;`,
+        [userEmail]
+      );
+      console.log(result);
+      res.status(200).send("Actualizado con éxito");
     } catch (error) {
       res.status(500).json({ error: error.message });
     } finally {

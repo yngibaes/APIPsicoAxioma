@@ -10,7 +10,7 @@ router.post('/insertUser', userController.insertUser)
 router.post('/verifyPhone', userController.verifyPhone)
 router.get('/readPhone', userController.readPhone)
 router.post('/updateUser', userController.updateUser)
-router.get('/deleteUser', userController.deleteUser)
+router.delete('/deleteUser', userController.deleteUser)
 
 //Create a diary controller.
 router.get('/readAllDiary', diaryController.readAllDiary) 
