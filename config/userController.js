@@ -112,23 +112,43 @@ export default class userController {
   static async deleteUser(req, res) {
     let connection;
     try {
-      connection = await mysql.createConnection(db);
+      connection = await mysql.createConnection({
+        ...db,
+        multipleStatements: true,
+      });
       const { userEmail } = req.query;
-      const result = await connection.execute(
-        `
-        SET SQL_SAFE_UPDATES = 0;
-      
-        DELETE FROM resultdiary WHERE diaryFK IN (SELECT diaryID FROM diary WHERE userFK = (SELECT userID FROM user WHERE userEmail = ?));
-      
-        DELETE FROM diary WHERE userFK = (SELECT userID FROM user WHERE userEmail = ?);
-      
-        DELETE FROM user WHERE userEmail = ?;
-      
-        SET SQL_SAFE_UPDATES = 1;`,
+
+      // Obtener el userID basado en el userEmail
+      const [userResult] = await connection.execute(
+        `SELECT userID FROM user WHERE userEmail = ?`,
         [userEmail]
       );
-      console.log(result);
-      res.status(200).send("Actualizado con éxito");
+
+      if (userResult.length === 0) {
+        return res.status(404).send("User not found");
+      }
+
+      const userID = userResult[0].userID;
+
+      // Deshabilitar actualizaciones seguras
+      await connection.execute(`SET SQL_SAFE_UPDATES = 0`);
+
+      // Eliminar de resultdiary
+      await connection.execute(
+        `DELETE FROM resultdiary WHERE diaryFK IN (SELECT diaryID FROM diary WHERE userFK = ?)`,
+        [userID]
+      );
+
+      // Eliminar de diary
+      await connection.execute(`DELETE FROM diary WHERE userFK = ?`, [userID]);
+
+      // Eliminar de user
+      await connection.execute(`DELETE FROM user WHERE userID = ?`, [userID]);
+
+      // Habilitar actualizaciones seguras
+      await connection.execute(`SET SQL_SAFE_UPDATES = 1`);
+
+      res.status(200).send("Deleted successfully");
     } catch (error) {
       res.status(500).json({ error: error.message });
     } finally {
