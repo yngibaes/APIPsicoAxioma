@@ -1,7 +1,5 @@
 import db from "../db/database.js";
 import mysql from "mysql2/promise";
-const fs = 'fs';
-const path = 'path';
 
 export default class userController {
   static async readUser(req, res) {
@@ -111,89 +109,52 @@ export default class userController {
       }
     }
   }
-
-static async deleteUser(req, res) {
+  static async deleteUser(req, res) {
     let connection;
     try {
-        connection = await mysql.createConnection({
-            ...db,
-            multipleStatements: true,
-        });
-        const { userEmail } = req.query;
+      connection = await mysql.createConnection({
+        ...db,
+        multipleStatements: true,
+      });
+      const { userEmail } = req.query;
 
-        // Obtener el userID basado en el userEmail
-        const [userResult] = await connection.execute(
-            `SELECT userID FROM user WHERE userEmail = ?`,
-            [userEmail]
-        );
+      // Obtener el userID basado en el userEmail
+      const [userResult] = await connection.execute(
+        `SELECT userID FROM user WHERE userEmail = ?`,
+        [userEmail]
+      );
 
-        if (userResult.length === 0) {
-            return res.status(404).send("User not found");
-        }
+      if (userResult.length === 0) {
+        return res.status(404).send("User not found");
+      }
 
-        const userID = userResult[0].userID;
+      const userID = userResult[0].userID;
 
-        // Obtener todos los datos del usuario
-        const [userData] = await connection.execute(
-            `SELECT * FROM user WHERE userID = ?`,
-            [userID]
-        );
+      // Deshabilitar actualizaciones seguras
+      await connection.execute(`SET SQL_SAFE_UPDATES = 0`);
 
-        const [diaryData] = await connection.execute(
-            `SELECT * FROM diary WHERE userFK = ?`,
-            [userID]
-        );
+      // Eliminar de resultdiary
+      await connection.execute(
+        `DELETE FROM resultdiary WHERE diaryFK IN (SELECT diaryID FROM diary WHERE userFK = ?)`,
+        [userID]
+      );
 
-        const [resultDiaryData] = await connection.execute(
-            `SELECT * FROM resultdiary WHERE diaryFK IN (SELECT diaryID FROM diary WHERE userFK = ?)`,
-            [userID]
-        );
+      // Eliminar de diary
+      await connection.execute(`DELETE FROM diary WHERE userFK = ?`, [userID]);
 
-        // Crear un archivo con los datos del usuario
-        const userFilePath = path.join(__dirname, `user_${userID}_data.json`);
-        const userFileContent = JSON.stringify({
-            user: userData,
-            diary: diaryData,
-            resultDiary: resultDiaryData
-        }, null, 2);
+      // Eliminar de user
+      await connection.execute(`DELETE FROM user WHERE userID = ?`, [userID]);
 
-        fs.writeFileSync(userFilePath, userFileContent);
+      // Habilitar actualizaciones seguras
+      await connection.execute(`SET SQL_SAFE_UPDATES = 1`);
 
-        // Enviar el archivo al cliente
-        res.download(userFilePath, `user_${userID}_data.json`, async (err) => {
-            if (err) {
-                return res.status(500).send("Error downloading the file");
-            }
-
-            // Deshabilitar actualizaciones seguras
-            await connection.execute(`SET SQL_SAFE_UPDATES = 0`);
-
-            // Eliminar de resultdiary
-            await connection.execute(
-                `DELETE FROM resultdiary WHERE diaryFK IN (SELECT diaryID FROM diary WHERE userFK = ?)`,
-                [userID]
-            );
-
-            // Eliminar de diary
-            await connection.execute(`DELETE FROM diary WHERE userFK = ?`, [userID]);
-
-            // Eliminar de user
-            await connection.execute(`DELETE FROM user WHERE userID = ?`, [userID]);
-
-            // Habilitar actualizaciones seguras
-            await connection.execute(`SET SQL_SAFE_UPDATES = 1`);
-
-            // Eliminar el archivo temporal
-            fs.unlinkSync(userFilePath);
-
-            res.status(200).send("Deleted successfully");
-        });
+      res.status(200).send("Deleted successfully");
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     } finally {
-        if (connection) {
-            await connection.end();
-        }
+      if (connection) {
+        await connection.end();
+      }
     }
-}
+  }
 }
