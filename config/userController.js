@@ -1,7 +1,7 @@
 import db from "../db/database.js";
 import mysql from "mysql2/promise";
-const fs = require('fs');
-const path = require('path');
+const fs = 'fs';
+const path = 'path';
 
 export default class userController {
   static async readUser(req, res) {
