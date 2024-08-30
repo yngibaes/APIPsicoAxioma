@@ -9,10 +9,10 @@ import app from '../index.js'
 
 const ChaiTest = chai.use(chaiHttp)
 
-describe('GET /api/info',()=>{
+describe('GET /api/readUser',()=>{
     it('should GET all info',(done)=>{ //done is a callback function
         ChaiTest.request(app)  //chai.request is a function that sends a request to the app
-        .get('/api/info')
+        .get('/api/readUser')
         .end((err,res)=>{
             expect(err).to.be.null //expect is a function that compares the result of the request with the expected result
             expect(res).to.have.status(200)
@@ -23,17 +23,16 @@ describe('GET /api/info',()=>{
     })
 }) 
 
-describe('POST /api/signup', ()=>{
+ describe('POST /api/insertUser', ()=>{
     it('should POST all info',(done)=>{ //done is a callback function
         let test = {
             userName: faker.Lorem.words(1)[0],
             userPhone: faker.phone.phoneNumber(), // '197089478'
             userEmail: faker.Internet.email(),
-            userPassword: faker.Internet.password()
         }
         console.log(test)
         ChaiTest.request(app)  //chai.request is a function that sends a request to the app
-            .post('/signup')
+            .post('/insertUser')
             .send(test)
             .end((err,res)=>{
                 expect(err).to.be.null //expect is a function that compares the result of the request with the expected result
