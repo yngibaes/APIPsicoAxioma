@@ -5,13 +5,14 @@ import resultScaDiarController from "./resultsScaDia.js";
 
 const router = new Router()
 
+//Create a user controller.
 router.get('/readUser', userController.readUser)
 router.post('/insertUser', userController.insertUser)
 router.post('/verifyPhone', userController.verifyPhone)
 router.get('/readPhone', userController.readPhone)
-router.post('/updateUser', userController.updateUser)
+//router.post('/updateUser', userController.updateUser)
 router.delete('/deleteUser', userController.deleteUser)
--
+
 //Create a diary controller.
 router.get('/readAllDiary', diaryController.readAllDiary) 
 router.get('/diary', diaryController.readDiary) 
@@ -21,6 +22,8 @@ router.get('/readDiaryById', diaryController.readDiaryById)
 //Create a resultScaDia controller.
 router.post('/insertsResultDiary', resultScaDiarController.insertsResultDiary)
 router.get('/resultDiary', resultScaDiarController.resultDiary)
+router.post('/insertsResultScanner', resultScaDiarController.insertsResultScanner)
+router.get('/resultScanner', resultScaDiarController.resultScanner)
 
 //Comentado por ahora
 /* router.put('/updateDiary', diaryController.updateDiary)

@@ -57,7 +57,7 @@ export default class userController {
       }
     }
   }
-  static async updateUser(req, res) {
+/*   static async updateUser(req, res) {
     let connection;
     try {
       const { userEmail, newEmail } = req.body;
@@ -76,7 +76,7 @@ export default class userController {
         await connection.end();
       }
     }
-  }
+  } */
   static async verifyPhone(req, res) {
     let connection;
     try {
