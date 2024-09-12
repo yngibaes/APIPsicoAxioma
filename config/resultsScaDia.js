@@ -51,15 +51,34 @@ export default class resultScaDiarController {
     try {
       const { ResultScanner } = req.body;
       const { userEmail } = req.query;
+
+      // Verificar que ResultScanner y userEmail no sean undefined
+      if (ResultScanner === undefined || userEmail === undefined) {
+        return res
+          .status(400)
+          .json({ error: "ResultScanner and userEmail are required" });
+      }
+
       connection = await mysql.createConnection(db);
-      const user = await connection.execute(
+
+      // Obtener el userID del usuario
+      const [userRows] = await connection.execute(
         "SELECT userID FROM user WHERE userEmail = ?",
         [userEmail]
       );
+
+      if (userRows.length === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const userID = userRows[0].userID;
+
+      // Insertar en resultscanner
       const [result] = await connection.execute(
-        "INSERT INTO resultscanner (resultScanner, resultScannerDate, userFK) VALUES (?,NOW(),?)",
-        [ResultScanner, user]
+        "INSERT INTO resultscanner (resultScanner, resultScannerDate, userFK) VALUES (?, NOW(), ?)",
+        [ResultScanner, userID]
       );
+
       console.log(result);
       res.status(200).send("Enviado con éxito");
     } catch (error) {
@@ -125,8 +144,8 @@ export default class resultScaDiarController {
       connection = await mysql.createConnection(db);
       const [result] = await connection.execute(
         `SELECT resultscanner.resultScanner, resultscanner.resultScannerDate
-          FROM user 
-          INNER JOIN resultscanner ON user.userID = resultScanner.userFK
+          FROM user
+          INNER JOIN resultscanner ON user.userID = resultscanner.userFK
           WHERE user.userEmail = ?
           ORDER BY resultscanner.resultScannerDate DESC`,
         [userEmail]
