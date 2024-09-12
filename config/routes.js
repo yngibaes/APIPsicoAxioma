@@ -24,6 +24,8 @@ router.post('/insertsResultDiary', resultScaDiarController.insertsResultDiary)
 router.get('/resultDiary', resultScaDiarController.resultDiary)
 router.post('/insertsResultScanner', resultScaDiarController.insertsResultScanner)
 router.get('/resultScanner', resultScaDiarController.resultScanner)
+router.get('/calendaryDiary', resultScaDiarController.calendaryDiary)
+router.get('/calendaryScanner', resultScaDiarController.calendaryScanner)
 
 //Comentado por ahora
 /* router.put('/updateDiary', diaryController.updateDiary)
