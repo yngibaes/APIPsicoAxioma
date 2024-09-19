@@ -97,7 +97,7 @@ export default class resultScaDiarController {
       const [result] = await connection.execute(
         `SELECT resultscanner.resultScanner, resultscanner.resultScannerDate
           FROM user 
-          INNER JOIN resultscanner ON user.userID = resultScanner.userFK
+          INNER JOIN resultscanner ON user.userID = resultscanner.userFK
           WHERE user.userEmail = ?
           ORDER BY resultscanner.resultScannerDate DESC
           LIMIT 7`,
